@@ -66,6 +66,13 @@ with tab1:
     st.metric("Nombre de clients uniques", nb_clients)
     st.metric("Panier moyen", f"{panier_moyen:,.2f} £")
 
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("CA total", f"{ca_total:,.2f} £")
+    col2.metric("Commandes", nb_commandes)
+    col3.metric("Clients uniques", nb_clients)
+    col4.metric("Panier moyen", f"{panier_moyen:,.2f} £")
+
+
     # Visualisation : évolution mensuelle du CA
     st.subheader("Évolution mensuelle du chiffre d’affaires")
     ca_mensuel = df_filtre.groupby("Month")["TotalPrice"].sum().reset_index()
@@ -121,27 +128,6 @@ with tab3:
     st.subheader("Segmentation clients : Nouveaux vs Récurrents")
     st.pyplot(fig)
 
-    # Valeur moyenne par client (CLV simplifié)
-    clv = df_filtre.groupby("CustomerID")["TotalPrice"].sum().mean()
-    st.metric("Valeur moyenne par client (CLV)", f"{clv:,.2f} £")
-
-    # Distribution du chiffre d’affaires par client
-    st.subheader("Distribution du chiffre d’affaires par client")
-    ca_par_client = df_filtre.groupby("CustomerID")["TotalPrice"].sum()
-    fig, ax = plt.subplots(figsize=(8,4))
-    sns.histplot(ca_par_client, bins=30, ax=ax, color="purple")
-    ax.set_xlabel("CA par client (£)")
-    ax.set_ylabel("Nombre de clients")
-    st.pyplot(fig)
-
-    # Top 10 clients par chiffre d’affaires
-    st.subheader("Top 10 clients par chiffre d’affaires")
-    top_clients = df_filtre.groupby("CustomerID")["TotalPrice"].sum().sort_values(ascending=False).head(10)
-    fig, ax = plt.subplots(figsize=(8,4))
-    top_clients.plot(kind="bar", ax=ax, color="red")
-    ax.set_ylabel("CA (£)")
-    st.pyplot(fig)
-
 # Onglet Pays 
 tab4 = st.tabs(["Pays"])[0]
 with tab4:
@@ -154,7 +140,7 @@ with tab4:
     ventes_par_pays_global.plot(kind="bar", ax=ax, color="skyblue")
     ax.set_ylabel("CA (£)")
     ax.set_title("Chiffre d’affaires par pays (global)")
-    st.pyplot(fig)
+    st.pyplot(fig)g
 
 
    
