@@ -3,6 +3,9 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import streamlit_jupyter as stj
+stj.st_run("app.py")
+
 
 # Chargement et nettoyage du dataset
 
@@ -120,21 +123,3 @@ with tab3:
     ax.set_ylabel("CA (£)")
     st.subheader("Segmentation clients : Nouveaux vs Récurrents")
     st.pyplot(fig)
-
-# Onglet Pays 
-tab4 = st.tabs(["Pays"])[0]
-with tab4:
-    st.subheader("Analyse par pays - Global")
-
-    # Chiffre d’affaires par pays (tous les pays)
-    ventes_par_pays_global = df.groupby("Country")["TotalPrice"].sum().sort_values(ascending=False)
-
-    fig, ax = plt.subplots(figsize=(10,6))
-    ventes_par_pays_global.plot(kind="bar", ax=ax, color="skyblue")
-    ax.set_ylabel("CA (£)")
-    ax.set_title("Chiffre d’affaires par pays (global)")
-    st.pyplot(fig)
-
-
-   
-
