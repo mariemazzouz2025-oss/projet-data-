@@ -121,6 +121,27 @@ with tab3:
     st.subheader("Segmentation clients : Nouveaux vs Récurrents")
     st.pyplot(fig)
 
+    # Valeur moyenne par client (CLV simplifié)
+    clv = df_filtre.groupby("CustomerID")["TotalPrice"].sum().mean()
+    st.metric("Valeur moyenne par client (CLV)", f"{clv:,.2f} £")
+
+    # Distribution du chiffre d’affaires par client
+    st.subheader("Distribution du chiffre d’affaires par client")
+    ca_par_client = df_filtre.groupby("CustomerID")["TotalPrice"].sum()
+    fig, ax = plt.subplots(figsize=(8,4))
+    sns.histplot(ca_par_client, bins=30, ax=ax, color="purple")
+    ax.set_xlabel("CA par client (£)")
+    ax.set_ylabel("Nombre de clients")
+    st.pyplot(fig)
+
+    # Top 10 clients par chiffre d’affaires
+    st.subheader("Top 10 clients par chiffre d’affaires")
+    top_clients = df_filtre.groupby("CustomerID")["TotalPrice"].sum().sort_values(ascending=False).head(10)
+    fig, ax = plt.subplots(figsize=(8,4))
+    top_clients.plot(kind="bar", ax=ax, color="red")
+    ax.set_ylabel("CA (£)")
+    st.pyplot(fig)
+
 # Onglet Pays 
 tab4 = st.tabs(["Pays"])[0]
 with tab4:
